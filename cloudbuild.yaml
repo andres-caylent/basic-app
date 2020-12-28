@@ -1,0 +1,5 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/caylent-testing/second-try/alzquickstart-image:tag1', '.' ]
+images:
+- 'gcr.io/caylent-testing/second-try/alzquickstart-image:tag1'
