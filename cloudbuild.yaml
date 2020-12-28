@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/caylent-testing/nginx/nginx:1.0.1', '.' ]
+  args: [ 'build', '-t', 'gcr.io/caylent-testing/nginx:1.0.2', '.' ]
 images:
-- 'gcr.io/caylent-testing/nginx/nginx:1.0.1'
+- 'gcr.io/caylent-testing/nginx:1.0.1'
