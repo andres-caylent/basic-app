@@ -56,3 +56,4 @@ spec:
   # traffic to.
   selector:
     app: nginx-1
+  type: LoadBalancer
