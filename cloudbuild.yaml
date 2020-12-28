@@ -1,10 +1,10 @@
 steps:
 # Build container image 
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/caylent-testing/nginx:1.0.3', '.' ]
+  args: [ 'build', '-t', 'gcr.io/caylent-testing/nginx:1.0.4', '.' ]
 # Push container image to gcr
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'gcr.io/caylent-testing/nginx:1.0.3']
+  args: [ 'push', 'gcr.io/caylent-testing/nginx:1.0.4']
 
 #  Copy the container image to gcr - it also shows the image in the build resutls at the build logs
 #images:
