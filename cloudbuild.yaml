@@ -1,8 +1,19 @@
 steps:
+# Build container image 
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/caylent-testing/nginx:1.0.3', '.' ]
+# Push container image to gcr
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'push', 'gcr.io/caylent-testing/nginx:1.0.3']
-#  The lines below would build, push, but also show the image in the build resutls at the biuld logs
+
+#  Copy the container image to gcr - it also shows the image in the build resutls at the build logs
 #images:
 #- 'gcr.io/caylent-testing/nginx:1.0.2'
+
+# deploy container image to GKE
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=resource.yml
+  - --location=us-east1-b
+  - --cluster=public-cluster

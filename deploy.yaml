@@ -5,4 +5,4 @@ steps:
   - run
   - --filename=resource.yml
   - --location=us-east1-b
-  - --cluster=alz-cluster
+  - --cluster=public-cluster
