@@ -25,7 +25,7 @@ steps:
   # test my builder
 - name: "gcr.io/caylent-testing/mybuilder"
   args:
-  - /bin/bash/script.sh
+  - /bin/bash script.sh
 
 
 # deploy container image to GKE
