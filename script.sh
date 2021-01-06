@@ -7,5 +7,8 @@ curl http://metadata.google.internal/computeMetadata/v1/instance/network-interfa
 echo "This is the private IP for this worker"
 curl http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip -H "Metadata-Flavor: Google"
 
+echo "result from ifconfig.io"
+curl ifconfig.io
+
 echo "This is the default service account for this worker"
 curl http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/ -H "Metadata-Flavor: Google"
