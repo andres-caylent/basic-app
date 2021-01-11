@@ -33,7 +33,8 @@ steps:
 
 - name: google/cloud-sdk:latest
   args: ["gcloud", "container", "clusters", "list", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
-
+  args: ["cat", "workspace/IP.txt"]
+  
 #gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 #gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 
