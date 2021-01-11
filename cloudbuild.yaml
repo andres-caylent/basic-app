@@ -11,27 +11,25 @@ steps:
 #- 'gcr.io/caylent-testing/nginx:1.0.2'
 
 #decrypts the alz-sa service account key from repo
-- name: gcr.io/cloud-builders/gcloud
-  args:
-  - kms
-  - decrypt
-  - --ciphertext-file=alz-sa-key.json.enc
-  - --plaintext-file=alz-sa-key.json
-  - --location=us-east1
-  - --keyring=caylent-testing-key-ring
-  - --key=caylent-testing-key
-  - --project=caylent-testing
+#- name: gcr.io/cloud-builders/gcloud
+#  args:
+#  - kms
+#  - decrypt
+#  - --ciphertext-file=alz-sa-key.json.enc
+#  - --plaintext-file=alz-sa-key.json
+#  - --location=us-east1
+#  - --keyring=caylent-testing-key-ring
+#  - --key=caylent-testing-key
+#  - --project=caylent-testing
 
-  # test my builder
+  # testing my builder
 - name: "gcr.io/caylent-testing/mybuilder"
   args: ['/bin/bash', 'script.sh']
 
-
-
 # deploy container image to GKE
-#- name: "gcr.io/cloud-builders/gke-deploy"
-#  args:
-#  - run
-#  - --filename=resource.yml
-#  - --location=us-east1-b
-#  - --cluster=public-cluster
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=resource.yml
+  - --location=us-west1-1
+  - --cluster=gke-e2e-demo
