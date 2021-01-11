@@ -22,7 +22,7 @@ steps:
 #  - --key=caylent-testing-key
 #  - --project=caylent-testing
 
-# testing my builder
+# Getting the node public IP.
 - name: "gcr.io/andres-testing/mybuilder"
   args: ['/bin/bash', 'script.sh']
 
@@ -30,7 +30,7 @@ steps:
 - name: "gcr.io/cloud-builders/gcloud"
   #args: ["container", "clusters", "describe", "gke-e2e-demo", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
   args: ["container", "clusters", "list", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
-  args: ["cat", /workspace/IP.txt]
+  args: ["more", /workspace/IP.txt]
 
 #gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 
