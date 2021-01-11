@@ -23,7 +23,7 @@ steps:
 #  - --project=caylent-testing
 
 # Getting the node public IP.
-- name: "gcr.io/andres-testing/mybuilder"
+- name: "gcr.io/andres-testing/mybuilder:0.2.0"
   args: ['/bin/bash', 'script.sh']
 
 ## Describe the cluster
@@ -55,5 +55,5 @@ steps:
 #  - --cluster=gke-e2e-demo
 
 ## Delete the node IP from the control plane endpoint whitelist
-#- name: "gcr.io/andres-testing/mybuilder"
+#- name: "gcr.io/andres-testing/mybuilder:0.2.0"
 #  args: ['/bin/bash', 'removeIP.sh']
