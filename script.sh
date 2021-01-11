@@ -14,7 +14,7 @@ echo $PUBLIC_IP > /workspace/IP.txt
 echo "This is the default service account for this worker"
 curl http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/ -H "Metadata-Flavor: Google"
 
-
+uname -a
 
 # Installing gcloud SDK
 echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.lista /etc/apt/sources.list.d/google-cloud-sdk.list
