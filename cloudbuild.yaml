@@ -22,10 +22,20 @@ steps:
 #  - --key=caylent-testing-key
 #  - --project=caylent-testing
 
-  # testing my builder
+# testing my builder
 - name: "gcr.io/andres-testing/mybuilder"
   args: ['/bin/bash', 'script.sh']
 
+# Edit the whitelist
+- name: "gcr.io/cloud-builders/gcloud"
+  args: ["container", "clusters", "describe gke-e2e-demo", "--region us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
+
+
+#gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
+
+
+#gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
+  
 # deploy container image to GKE
 - name: "gcr.io/cloud-builders/gke-deploy"
   args:

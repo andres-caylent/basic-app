@@ -9,13 +9,12 @@
 
 echo "Result from ifconfig.io"
 PUBLIC_IP=$(curl ifconfig.io)
-echo $PUBLIC_IP
+echo $PUBLIC_IP > /workspace/IP.txt
 
 echo "This is the default service account for this worker"
 curl http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/ -H "Metadata-Flavor: Google"
 
-gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
+#gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 
-#gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks 10.128.0.3/32
 
-gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
+#gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
