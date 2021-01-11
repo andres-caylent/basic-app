@@ -41,10 +41,10 @@ steps:
 #gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 
 
-# deploy container image to GKE
-#- name: "gcr.io/cloud-builders/gke-deploy"
-#  args:
-#  - run
-#  - --filename=resource.yml
-#  - --location=us-west1-1
-#  - --cluster=gke-e2e-demo
+ deploy container image to GKE
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=resource.yml
+  - --location=us-west1-1
+  - --cluster=gke-e2e-demo
