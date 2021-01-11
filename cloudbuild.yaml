@@ -47,13 +47,13 @@ steps:
 
 
 ## Deploy container image to GKE
-#- name: "gcr.io/cloud-builders/gke-deploy"
-#  args:
-#  - run
-#  - --filename=resource.yml
-#  - --location=us-west1-1
-#  - --cluster=gke-e2e-demo
+- name: "gcr.io/cloud-builders/gke-deploy"
+  args:
+  - run
+  - --filename=resource.yml
+  - --location=us-west1-1
+  - --cluster=gke-e2e-demo
 
 ## Delete the node IP from the control plane endpoint whitelist
-#- name: "gcr.io/andres-testing/mybuilder:0.2.0"
-#  args: ['/bin/bash', 'removeIP.sh']
+- name: "gcr.io/andres-testing/mybuilder:0.2.0"
+  args: ['/bin/bash', 'removeIP.sh']
