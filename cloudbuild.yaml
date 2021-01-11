@@ -24,7 +24,7 @@ steps:
 
 # Getting the node public IP.
 - name: "gcr.io/andres-testing/mybuilder"
-  args: ['/bin/bash', 'script.sh']
+  args: ['/bin/bash', 'script.sh', '|', 'echo']
 
 ## Describe the cluster
 - name: "gcr.io/andres-testing/cloud-sdk"
@@ -32,8 +32,7 @@ steps:
 
 ## Edit the whitelist
 #- name: "gcr.io/cloud-builders/gcloud"
-  #args: ["container", "clusters", "describe", "gke-e2e-demo", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
-  #args: ["container", "clusters", "list", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
+  #args: ["container", "clusters", "describe", "gke-e2e-demo", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]  #args: ["container", "clusters", "list", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
 
 #- name: google/cloud-sdk:latest
 - name: "gcr.io/andres-testing/cloud-sdk"
@@ -41,7 +40,7 @@ steps:
   #args: ["cat", "/workspace/IP.json", "|", "export", "$IP=(cat /workspace/IP.json)", "|", "echo", "$IP"] 
   #args: ["export", "$IP=(cat /workspace/IP.json)"]
   #args: ["echo", "$IP"]
-  args: ["gcloud", "container", "clusters", "update", "gke-e2e-demo", "--enable-master-authorized-networks", "--master-authorized-networks", "$(cat /workspace/IP.json)", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
+  args: ["export IP=$(cat /workspace/IP.json)", "&&", "gcloud", "container", "clusters", "update", "gke-e2e-demo", "--enable-master-authorized-networks", "--master-authorized-networks", "$IP", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
 
 #gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 #gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
