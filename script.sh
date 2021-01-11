@@ -10,8 +10,8 @@
 echo "Result from ifconfig.io"
 PUBLIC_IP=$(curl ifconfig.io)
 echo $PUBLIC_IP
-echo $PUBLIC_IP > /workspace/IP.txt
-echo "reading workspace/IP.txt"
+echo $PUBLIC_IP > /workspace/IP.json
+echo "reading workspace/IP.json"
 more /workspace/IP.txt
 
 echo "This is the default service account for this worker"
