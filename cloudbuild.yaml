@@ -51,7 +51,7 @@ steps:
   args:
   - run
   - --filename=resource.yml
-  - --location=us-west1-1
+  - --location=us-west1-a
   - --cluster=gke-e2e-demo
 
 ## Delete the node IP from the control plane endpoint whitelist
