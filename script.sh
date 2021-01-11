@@ -11,6 +11,8 @@ echo "Result from ifconfig.io"
 PUBLIC_IP=$(curl ifconfig.io)
 echo $PUBLIC_IP
 echo $PUBLIC_IP > /workspace/IP.txt
+echo "reading workspace/IP.txt"
+more /workspace/IP.txt
 
 echo "This is the default service account for this worker"
 curl http://metadata.google.internal/computeMetadata/v1/instance/service-accounts/ -H "Metadata-Flavor: Google"
