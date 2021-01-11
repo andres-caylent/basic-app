@@ -23,7 +23,7 @@ steps:
 #  - --project=caylent-testing
 
   # testing my builder
-- name: "gcr.io/caylent-testing/mybuilder"
+- name: "gcr.io/andres-testing/mybuilder"
   args: ['/bin/bash', 'script.sh']
 
 # deploy container image to GKE
