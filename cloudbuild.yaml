@@ -37,10 +37,10 @@ steps:
 #- name: google/cloud-sdk:latest
 - name: "gcr.io/andres-testing/cloud-sdk"
   #args: [ "cat /workspace/IP.json | export $IP=(cat /workspace/IP.json) | echo $IP"]
-  #args: ["cat", "/workspace/IP.json", "|", "export", "$IP=(cat /workspace/IP.json)", "|", "echo", "$IP"] 
+  args: ["cat", "/workspace/IP.json"] 
   #args: ["export", "$IP=(cat /workspace/IP.json)"]
   #args: ["echo", "$IP"]
-  args: ["export IP=$(cat /workspace/IP.json)", "&&", "gcloud", "container", "clusters", "update", "gke-e2e-demo", "--enable-master-authorized-networks", "--master-authorized-networks", "$IP", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
+  #args: ["export IP=$(cat /workspace/IP.json)", "&&", "gcloud", "container", "clusters", "update", "gke-e2e-demo", "--enable-master-authorized-networks", "--master-authorized-networks", "$IP", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
 
 #gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
 #gcloud container clusters update gke-e2e-demo --enable-master-authorized-networks --master-authorized-networks $PUBLIC_IP/32 --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
