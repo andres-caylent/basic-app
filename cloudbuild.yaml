@@ -28,7 +28,7 @@ steps:
 
 # Edit the whitelist
 - name: "gcr.io/cloud-builders/gcloud"
-  args: ["container", "clusters", "describe gke-e2e-demo", "--region us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
+  args: ["container", "clusters", "describe", "gke-e2e-demo", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
 
 
 #gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com
