@@ -1,5 +1,7 @@
 #! bin/bash
 
+echo 'here'
+
 cat /workspace/FORMERWHITELIST.json
 
 FROMERWHITELIST=$(cat /workspace/FORMERWHITELIST.json)
