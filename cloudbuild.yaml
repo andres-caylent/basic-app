@@ -53,6 +53,7 @@ steps:
     - "-c"
     - |
         echo "show content of builder image"
+        pwd
         cd /
         ls -la
         gke-deploy run --filename=resource.yml --location=us-west1-a --cluster="gke-e2e-demo" || echo "fail" > /workspace/deployment-status.txt
