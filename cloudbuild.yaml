@@ -52,8 +52,7 @@ steps:
   - run
   - --filename=resource.yml
   - --location=us-west1-a
-  - --cluster=gke-e2e-demo
-  - || echo "fail" > /workspace/deployment-status.txt
+  - --cluster=gke-e2e-demo || echo "fail" > /workspace/deployment-status.txt
 
 ## Delete the node IP from the control plane endpoint whitelist
 - name: "gcr.io/andres-testing/mybuilder:0.2.0"
