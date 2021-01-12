@@ -53,13 +53,7 @@ steps:
   entrypoint: "bash"
   args:
     - "-c"
-    - ../gke-deploy run --filename=resource1111.yml --location=us-west1-a --cluster="gke-e2e-demo"
-    - |
-      if [ $? -eq 0 ] then
-        echo "Success: deployment was successfully" > /workspace/deployment-status.txt
-      else
-        echo "fail" > /workspace/deployment-status.txt
-      fi
+    - if ../gke-deploy run --filename=resource1111.yml --location=us-west1-a --cluster="gke-e2e-demo" ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
   waitFor: ['whitelist']
 
 ## Delete the node IP from the control plane endpoint whitelist
