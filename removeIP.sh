@@ -2,7 +2,7 @@
 
 echo 'here'
 
-cat /workspace/FORMERWHITELIST.json
+more /workspace/FORMERWHITELIST.json
 
 FROMERWHITELIST=$(cat /workspace/FORMERWHITELIST.json)
 
