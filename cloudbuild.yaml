@@ -55,11 +55,12 @@ steps:
         echo "show content of builder image"
         cd /
         ls -la
+        gke-deploy run --filename=resource.yml --location=us-west1-a --cluster="gke-e2e-demo" || echo "fail" > /workspace/deployment-status.txt
   # args:
   # - run
-  # - --filename=resource.yml
-  # - --location=us-west1-a
-  # - --cluster="gke-e2e-demo"
+  # -
+  # -
+  # -
 
 
 ## Delete the node IP from the control plane endpoint whitelist
