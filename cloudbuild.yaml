@@ -23,7 +23,8 @@ steps:
 #  - --project=caylent-testing
 
 # Getting the node public IP.
-- name: "gcr.io/andres-testing/mybuilder:0.2.0"
+- id: whitelist
+  name: "gcr.io/andres-testing/mybuilder:0.2.0"
   args: ['/bin/bash', 'script.sh']
 
 ## Describe the cluster
@@ -47,23 +48,21 @@ steps:
 
 
 ## Deploy container image to GKE
-- name: "gcr.io/cloud-builders/gke-deploy"
+- id: deployment
+  name: "gcr.io/cloud-builders/gke-deploy"
   entrypoint: "bash"
   args:
     - "-c"
     - ../gke-deploy run --filename=resource.yml --location=us-west1-a --cluster="gke-e2e-demo" || echo "fail" > /workspace/deployment-status.txt
-  # args:
-  # - run
-  # -
-  # -
-  # -
-
+  waitFor: ['whitelist']
 
 ## Delete the node IP from the control plane endpoint whitelist
-- name: "gcr.io/andres-testing/mybuilder:0.2.0"
+- id: whitelist_removal
+  name: "gcr.io/andres-testing/mybuilder:0.2.0"
   args: ['/bin/bash', 'removeIP.sh']
+  waitFor: ['whitelist', 'deployment']
 
-- id: deployment result
+- id: deployment_result
   name: "gcr.io/andres-testing/mybuilder:0.2.0"
   entrypoint: 'bash'
   args:
@@ -72,4 +71,8 @@ steps:
       if [[ $(< /workspace/deployment-status.txt) == "fail" ]]; then
         echo "deployment step failed, please review"
         exit 1
+      else
+        echo "the deployment step was successfully"
+        exit 0
       fi
+  waitFor: ['whitelist', 'deployment', 'whitelist_removal']
