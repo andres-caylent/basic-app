@@ -53,6 +53,7 @@ steps:
     - "-c"
     - |
         echo "show content of builder image"
+        cd /
         ls -la
   # args:
   # - run
