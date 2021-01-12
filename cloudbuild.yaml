@@ -1,5 +1,5 @@
 steps:
-# Build container image 
+# Build container image
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/andres-testing/nginx:latest', '.' ]
 # Push container image to gcr
@@ -28,7 +28,7 @@ steps:
 
 ## Describe the cluster
 #- name: "gcr.io/andres-testing/cloud-sdk"
-#  args: ["gcloud", "container", "clusters", "list", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"] 
+#  args: ["gcloud", "container", "clusters", "list", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
 
 ## Edit the whitelist
 #- name: "gcr.io/cloud-builders/gcloud"
@@ -37,7 +37,7 @@ steps:
 #- name: google/cloud-sdk:latest
 #- name: "gcr.io/andres-testing/cloud-sdk"
   #args: [ "cat /workspace/IP.json | export $IP=(cat /workspace/IP.json) | echo $IP"]
-  #args: ["cat", "/workspace/IP.json"] 
+  #args: ["cat", "/workspace/IP.json"]
   #args: ["export", "$IP=(cat /workspace/IP.json)"]
   #args: ["echo", "$IP"]
   #args: ["export IP=$(cat /workspace/IP.json)", "&&", "gcloud", "container", "clusters", "update", "gke-e2e-demo", "--enable-master-authorized-networks", "--master-authorized-networks", "$IP", "--region", "us-west1-a", "--impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com"]
@@ -53,7 +53,18 @@ steps:
   - --filename=resource.yml
   - --location=us-west1-a
   - --cluster=gke-e2e-demo
+  - || echo "fail" > /workspace/deployment-status.txt
 
 ## Delete the node IP from the control plane endpoint whitelist
 - name: "gcr.io/andres-testing/mybuilder:0.2.0"
   args: ['/bin/bash', 'removeIP.sh']
+
+- id: deployment result
+  name: "gcr.io/andres-testing/mybuilder:0.2.0"
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      if [[ $(< /workspace/deployment-status.txt) == "fail" ]]; then
+        exit 1
+      fi
