@@ -9,9 +9,9 @@ steps:
   args: [ 'push', 'gcr.io/andres-testing/nginx:latest']
 
 ## Getting the node public IP.
-- id: whitelist
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  args: ['/bin/bash', 'script.sh']
+#- id: whitelist
+#  name: "gcr.io/andres-testing/mybuilder:0.3"
+#  args: ['/bin/bash', 'script.sh']
 
 ## Deploy container image to GKE
 - id: deployment
@@ -23,10 +23,10 @@ steps:
   waitFor: ['whitelist']
 
 ## Delete the node IP from the control plane endpoint whitelist
-- id: whitelist_removal
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  args: ['/bin/bash', 'removeIP.sh']
-  waitFor: ['whitelist', 'deployment']
+#- id: whitelist_removal
+#  name: "gcr.io/andres-testing/mybuilder:0.3"
+#  args: ['/bin/bash', 'removeIP.sh']
+#  waitFor: ['whitelist', 'deployment']
 
 - id: deployment_result
   name: "gcr.io/andres-testing/mybuilder:0.3"
