@@ -20,7 +20,7 @@ steps:
   args:
     - "-c"
     - if ../gke-deploy run --filename=resource.yml --location=us-west1-a --cluster="gke-e2e-demo" ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
-  waitFor: ['whitelist']
+  #waitFor: ['whitelist']
 
 ## Delete the node IP from the control plane endpoint whitelist
 #- id: whitelist_removal
@@ -41,4 +41,4 @@ steps:
         echo "the deployment step was successfully"
         exit 0
       fi
-  waitFor: ['whitelist', 'deployment', 'whitelist_removal']
+ # waitFor: ['whitelist', 'deployment', 'whitelist_removal']
