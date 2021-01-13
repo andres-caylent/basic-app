@@ -10,8 +10,9 @@ steps:
 
 ## Getting the node public IP.
 - id: whitelist
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  args: ['/bin/bash', 'script.sh']
+  name: "gcr.io/cloud-builders/gcloud"
+  entrypoint: "bash"
+  args: ['./script.sh']
 
 ## Deploy container image to GKE
 - id: deployment
