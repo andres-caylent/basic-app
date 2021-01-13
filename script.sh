@@ -12,7 +12,7 @@ echo $PUBLIC_IP
 echo $PUBLIC_IP > /workspace/IP.json
 
 ## Getting the former whitelist from cluster.
-FORMERWHITELIST=$(gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com --format json | jq -r '.masterAuthorizedNetworksConfig.cidrBlocks[].cidrBlock')
+FORMERWHITELIST=$(gcloud container clusters describe gke-e2e-demo --region us-west1-a --impersonate-service-account=gke-custom@andres-testing.iam.gserviceaccount.com --format json | jq -r '.masterAuthorizedNetworksConfig | .cidrBlocks | map(.cidrBlock) | join (",")' 
 echo $FORMERWHITELIST > /workspace/FORMERWHITELIST.json
 
 ## Updating the whitelist
