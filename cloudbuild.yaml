@@ -25,12 +25,13 @@ steps:
 
 ## Delete the node IP from the control plane endpoint whitelist
 - id: whitelist_removal
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  args: ['/bin/bash', 'removeIP.sh']
+  name: "gcr.io/cloud-builders/gcloud"
+  entrypoint: "bash"
+  args: ['./removeIP.sh']
   waitFor: ['whitelist', 'deployment']
 
 - id: deployment_result
-  name: "gcr.io/andres-testing/mybuilder:0.3"
+  name: "gcr.io/cloud-builders/gcloud"
   entrypoint: 'bash'
   args:
     - '-c'
