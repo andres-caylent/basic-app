@@ -2,43 +2,39 @@ steps:
 
 ## Build container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/andres-testing/nginx:latest', '.' ]
+  args: [ 'build', '-t', 'gcr.io/terraform-test-300906/nginx:latest', '.' ]
 
 ## Push container image to gcr
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'gcr.io/andres-testing/nginx:latest']
+  args: [ 'push', 'gcr.io/terraform-test-300906/nginx:latest']
 
-## Getting the node public IP.
-- id: whitelist
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  args: ['/bin/bash', 'script.sh']
-
-## Deploy container image to GKE
+## We need to get the following details dinamically: projectid, zone, cluster name, instance name, using hardcoded for now.
 - id: deployment
   name: "gcr.io/cloud-builders/gke-deploy"
   entrypoint: "bash"
   args:
     - "-c"
-    - if ../gke-deploy run --filename=resource.yml --location=us-west1-a --cluster="gke-e2e-demo" ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
-  #waitFor: ['whitelist']
-
-## Delete the node IP from the control plane endpoint whitelist
-- id: whitelist_removal
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  args: ['/bin/bash', 'removeIP.sh']
-  waitFor: ['whitelist', 'deployment']
-
-- id: deployment_result
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  entrypoint: 'bash'
-  args:
-    - '-c'
     - |
-      if [[ $(< /workspace/deployment-status.txt) == "fail" ]]; then
-        echo "deployment step failed, please check that step for further details"
-        exit 1
-      else
-        echo "the deployment step was successfully"
-        exit 0
-      fi
- # waitFor: ['whitelist', 'deployment', 'whitelist_removal']
+      PROJECT_ID=$(gcloud config get-value project)
+### Adding cluste context to kubeconfig
+      gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
+### enabling port forwarding with ssh through gcloud
+      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+### Setting PROXY environment variable to run kubectl commands
+      export HTTPS_PROXY=localhost:8888
+      kubectl get nodes
+      kubectl apply -f resources.yaml
+# going with kubectl since authentication and proxy is setup through the ssh tunnel
+#../gke-deploy run --filename=resources.yaml --location=us-west1-a --cluster="gke-e2e-demo"
+
+- id: delete_deployment
+  name: "gcr.io/cloud-builders/gke-deploy"
+  entrypoint: "bash"
+  args:
+    - "-c"
+    - |
+      PROJECT_ID=$(gcloud config get-value project)
+      gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
+      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+      export HTTPS_PROXY=localhost:8888
+      kubectl delete -f resources.yaml

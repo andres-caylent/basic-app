@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: "nginx-1"
-        image: "gcr.io/andres-testing/nginx:0.4"
+        image: "gcr.io/terraform-test-300906/nginx:latest"
 ---
 apiVersion: "autoscaling/v2beta1"
 kind: "HorizontalPodAutoscaler"
