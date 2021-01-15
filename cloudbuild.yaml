@@ -29,7 +29,7 @@ steps:
           --tags tag-firewall \
           --zone=us-west1-a 
           --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
-    waitfor: ['-']
+    waitFor: ['-']
 
   - 
     args: 
@@ -52,7 +52,7 @@ steps:
           gcloud container clusters get-credentials cluster-3 --zone us-west1-a --project $PROJECT_ID
           echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
-          kubectl delete -f resources.yaml
+          if ../kubectl delete -f resources.yaml ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
     entrypoint: bash
     id: delete_deployment
     name: gcr.io/cloud-builders/gke-deploy
@@ -66,3 +66,18 @@ steps:
       - "-c"
       - |    
           gcloud compute instances delete private-instance --zone=us-west1-a
+
+
+- id: deployment_result
+  name: "gcr.io/andres-testing/mybuilder:0.3"
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      if [[ $(< /workspace/deployment-status.txt) == "fail" ]]; then
+        echo "deployment step failed, please check that step for further details"
+        exit 1
+      else
+        echo "the deployment step was successfully"
+        exit 0
+      fi          
