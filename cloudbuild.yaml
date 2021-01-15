@@ -13,23 +13,23 @@ steps:
       - "gcr.io/andres-testing/nginx:latest"
     name: gcr.io/cloud-builders/docker
 
-  -
-    id: createvm
-    name: gcr.io/cloud-builders/gke-deploy
-    entrypoint: bash
-    args:
-      - "-c"
-      - |    
-          gcloud compute instances create private-instance \
-          --boot-disk-auto-delete \
-          --machine-type=n1-standard-1 \
-          --metadata startup-script="sudo apt-get install tinyproxy && echo \"Allow localhost\" >> /etc/tinyproxy/tinyproxy.conf && sudo service tinyproxy restart" \
-          --network=default \
-          --preemptible \
-          --tags tag-firewall \
-          --zone=us-west1-a \
-          --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
-    waitFor: ['-']
+ # -
+ #   id: createvm
+ #   name: gcr.io/cloud-builders/gke-deploy
+ #   entrypoint: bash
+ #   args:
+ #     - "-c"
+ #     - |    
+ #         gcloud compute instances create private-instance \
+ #         --boot-disk-auto-delete \
+ #         --machine-type=n1-standard-1 \
+ #         --metadata startup-script="sudo apt-get install tinyproxy && echo \"Allow localhost\" >> /etc/tinyproxy/tinyproxy.conf && sudo service tinyproxy restart" \
+ #         --network=default \
+ #         --preemptible \
+ #         --tags tag-firewall \
+ #         --zone=us-west1-a \
+ #         --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
+ #   waitFor: ['-']
 
   - 
     args: 
