@@ -68,16 +68,17 @@ steps:
           gcloud compute instances delete private-instance --zone=us-west1-a
 
 
-- id: deployment_result
-  name: "gcr.io/andres-testing/mybuilder:0.3"
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      if [[ $(< /workspace/deployment-status.txt) == "fail" ]]; then
-        echo "deployment step failed, please check that step for further details"
-        exit 1
-      else
-        echo "the deployment step was successfully"
-        exit 0
-      fi          
+  - 
+    id: deployment_result
+    name: "gcr.io/andres-testing/mybuilder:0.3"
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        if [[ $(< /workspace/deployment-status.txt) == "fail" ]]; then
+          echo "deployment step failed, please check that step for further details"
+          exit 1
+        else
+          echo "the deployment step was successfully"
+          exit 0
+        fi          
