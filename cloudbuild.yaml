@@ -19,10 +19,10 @@ steps:
 #  entrypoint: "bash"
 #  args:
     - -c
-    - |
+#    - |
 #      PROJECT_ID=andres-caylent
 ### Adding cluste context to kubeconfig
-      gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-caylent
+    -  gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-caylent
 ### enabling port forwarding with ssh through gcloud
 #      echo y | gcloud compute ssh instance-1 --project andres-caylent --region us-west1--  -L 8888:localhost:8888 -N -q -f
 ### Setting PROXY environment variable to run kubectl commands
