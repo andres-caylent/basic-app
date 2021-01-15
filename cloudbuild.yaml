@@ -2,11 +2,11 @@ steps:
 
 ## Build container image
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '-t', 'gcr.io/terraform-test-300906/nginx:latest', '.' ]
+  args: [ 'build', '-t', 'gcr.io/andres-testing/nginx:latest', '.' ]
 
 ## Push container image to gcr
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'push', 'gcr.io/terraform-test-300906/nginx:latest']
+  args: [ 'push', 'gcr.io/andres-testing/nginx:latest']
 
 ## We need to get the following details dinamically: projectid, zone, cluster name, instance name, using hardcoded for now.
 - id: deployment
@@ -15,27 +15,28 @@ steps:
   args:
     - '-c'
     - |
-      PROJECT_ID=andres-caylent
+#      PROJECT_ID=andres-caylent
 ### Adding cluste context to kubeconfig
       gcloud container clusters get-credentials cluster-3 --region us-west1--project andres-caylent
 ### enabling port forwarding with ssh through gcloud
-      echo y | gcloud compute ssh instance-1 --project andres-caylent --region us-west1--  -L 8888:localhost:8888 -N -q -f
+#      echo y | gcloud compute ssh instance-1 --project andres-caylent --region us-west1--  -L 8888:localhost:8888 -N -q -f
 ### Setting PROXY environment variable to run kubectl commands
-      export HTTPS_PROXY=localhost:8888
-      kubectl get nodes
-      kubectl apply -f resources.yaml
+#      export HTTPS_PROXY=localhost:8888
+#      kubectl get nodes
+#      kubectl apply -f resources.yaml
+#####
 # going with kubectl since authentication and proxy is setup through the ssh tunnel
 #../gke-deploy run --filename=resources.yaml --location=us-west1-a --cluster="cluster-3"
 
-- id: delete_deployment
-  name: "gcr.io/cloud-builders/gke-deploy"
-  entrypoint: "bash"
-  args:
-    - '-c'
-    - |
-      PROJECT_ID=$(gcloud config get-value project)
-      gcloud container clusters get-credentials cluster-3 --region us-west1--project $PROJECT_ID
-      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --region us-west1--  -L 8888:localhost:8888 -N -q -f
-      export HTTPS_PROXY=localhost:8888
-      kubectl delete -f resources.yaml
+#- id: delete_deployment
+#  name: "gcr.io/cloud-builders/gke-deploy"
+#  entrypoint: "bash"
+#  args:
+#    - '-c'
+#    - |
+#      PROJECT_ID=$(gcloud config get-value project)
+#      gcloud container clusters get-credentials cluster-3 --region us-west1--project $PROJECT_ID
+#      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --region us-west1--  -L 8888:localhost:8888 -N -q -f
+#      export HTTPS_PROXY=localhost:8888
+#      kubectl delete -f resources.yaml
 
