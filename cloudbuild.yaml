@@ -7,13 +7,14 @@ steps:
       - "gcr.io/andres-testing/nginx:latest"
       - "."
     name: gcr.io/cloud-builders/docker
+
   -
     args:
       - push
       - "gcr.io/andres-testing/nginx:latest"
     name: gcr.io/cloud-builders/docker
 
- -
+  -
    id: createvm
    name: gcr.io/cloud-builders/gke-deploy
    entrypoint: bash
