@@ -29,14 +29,14 @@ steps:
           --tags tag-firewall \
           --zone=us-west1-a 
           --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
-
+    waitfor: ['-']
 
   - 
     args: 
       - "-c"
       - |
           PROJECT_ID=$(gcloud config get-value project)
-          gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
+          gcloud container clusters get-credentials cluster-3--zone us-west1-a --project $PROJECT_ID
           echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
           kubectl get nodes
@@ -49,7 +49,7 @@ steps:
       - "-c"
       - |
           PROJECT_ID=$(gcloud config get-value project)
-          gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
+          gcloud container clusters get-credentials cluster-3 --zone us-west1-a --project $PROJECT_ID
           echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
           kubectl delete -f resources.yaml
