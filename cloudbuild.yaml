@@ -17,7 +17,7 @@ steps:
     - |
       PROJECT_ID=$(gcloud config get-value project)
 ### Adding cluste context to kubeconfig
-      gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
+      gcloud container clusters get-credentials cluster-3 --zone us-west1-a --project $PROJECT_ID
 ### enabling port forwarding with ssh through gcloud
       echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
 ### Setting PROXY environment variable to run kubectl commands
@@ -25,7 +25,7 @@ steps:
       kubectl get nodes
       kubectl apply -f resources.yaml
 # going with kubectl since authentication and proxy is setup through the ssh tunnel
-#../gke-deploy run --filename=resources.yaml --location=us-west1-a --cluster="gke-e2e-demo"
+#../gke-deploy run --filename=resources.yaml --location=us-west1-a --cluster="cluster-3"
 
 - id: delete_deployment
   name: "gcr.io/cloud-builders/gke-deploy"
@@ -34,7 +34,7 @@ steps:
     - "-c"
     - |
       PROJECT_ID=$(gcloud config get-value project)
-      gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
+      gcloud container clusters get-credentials cluster-3 --zone us-west1-a --project $PROJECT_ID
       echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
       export HTTPS_PROXY=localhost:8888
       kubectl delete -f resources.yaml
