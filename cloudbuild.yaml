@@ -27,7 +27,7 @@ steps:
           --network=default \
           --preemptible \
           --tags tag-firewall \
-          --zone=us-west1-a 
+          --zone=us-west1-a \
           --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
     waitFor: ['-']
 
