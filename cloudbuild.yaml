@@ -15,11 +15,11 @@ steps:
   args:
     - "-c"
     - |
-      PROJECT_ID=$(gcloud config get-value project)
+      PROJECT_ID=andres-caylent
 ### Adding cluste context to kubeconfig
-      gcloud container clusters get-credentials cluster-3 --zone us-west1-a --project $PROJECT_ID
+      gcloud container clusters get-credentials cluster-3 --region us-west1--project $PROJECT_ID
 ### enabling port forwarding with ssh through gcloud
-      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+      echo y | gcloud compute ssh instance-1 --project andres-caylent --region us-west1--  -L 8888:localhost:8888 -N -q -f
 ### Setting PROXY environment variable to run kubectl commands
       export HTTPS_PROXY=localhost:8888
       kubectl get nodes
@@ -34,7 +34,7 @@ steps:
     - "-c"
     - |
       PROJECT_ID=$(gcloud config get-value project)
-      gcloud container clusters get-credentials cluster-3 --zone us-west1-a --project $PROJECT_ID
-      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+      gcloud container clusters get-credentials cluster-3 --region us-west1--project $PROJECT_ID
+      echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --region us-west1--  -L 8888:localhost:8888 -N -q -f
       export HTTPS_PROXY=localhost:8888
       kubectl delete -f resources.yaml
