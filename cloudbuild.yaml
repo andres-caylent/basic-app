@@ -8,13 +8,23 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'push', 'gcr.io/andres-testing/nginx:latest']
 
-## We need to get the following details dinamically: projectid, zone, cluster name, instance name, using hardcoded for now.
 - id: deployment
   name: "gcr.io/cloud-builders/gke-deploy"
   entrypoint: "bash"
   args:
-    - '-c'
-    - |
+    - echo 'test-1'
+    - echo 'test-2'
+
+
+
+
+## We need to get the following details dinamically: projectid, zone, cluster name, instance name, using hardcoded for now.
+#- id: deployment
+#  name: "gcr.io/cloud-builders/gke-deploy"
+#  entrypoint: "bash"
+#  args:
+#    - '-c'
+#    - |
 #      PROJECT_ID=andres-caylent
 ### Adding cluste context to kubeconfig
       gcloud container clusters get-credentials cluster-3 --region us-west1--project andres-caylent
