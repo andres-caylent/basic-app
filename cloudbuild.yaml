@@ -36,7 +36,7 @@ steps:
       - "-c"
       - |
           PROJECT_ID=$(gcloud config get-value project)
-          gcloud container clusters get-credentials cluster-3--zone us-west1-a --project $PROJECT_ID
+          gcloud container clusters get-credentials cluster-3--region us-west1 --project $PROJECT_ID
           echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
           kubectl get nodes
@@ -50,7 +50,7 @@ steps:
       - |
           PROJECT_ID=$(gcloud config get-value project)
           gcloud container clusters get-credentials cluster-3 --region us-west1 --project $PROJECT_ID
-          echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+          echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a--  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
           if ../kubectl delete -f resources.yaml ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
     entrypoint: bash
