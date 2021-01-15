@@ -24,7 +24,7 @@ steps:
          gcloud compute instances create private-instance \
          --boot-disk-auto-delete \
          --machine-type=n1-standard-1 \
-         --metadata-from-file startup-script=tinyproxy.sh
+         --metadata-from-file startup-script=tinyproxy.sh \
          --network=default \
          --preemptible \
          --tags tag-firewall \
