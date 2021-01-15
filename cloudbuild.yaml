@@ -12,18 +12,40 @@ steps:
       - push
       - "gcr.io/andres-testing/nginx:latest"
     name: gcr.io/cloud-builders/docker
+
+  -
+    id: deployment
+    name: gcr.io/cloud-builders/gke-deploy
+    entrypoint: bash
+    args:
+      - "-c"
+      - |    
+          gcloud compute instances create private-instance \
+          --boot-disk-auto-delete \
+          --machine-type=n1-standard-1 \
+          --metadata startup-script="sudo apt-get install tinyproxy && echo \"Allow localhost\" >> /etc/tinyproxy/tinyproxy.conf && sudo service tinyproxy restart" \
+          --network=default \
+#          --subnet=private-subnet \
+          --preemptible \
+          --tags tag-firewall \
+          --zone=us-west1-a 
+#          gcloud compute instances delete private-instance --zone=us-west1-a
+
+
+
+
   - 
     args: 
       - "-c"
       - |
           PROJECT_ID=$(gcloud config get-value project)
           gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
-          echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+          echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
           kubectl get nodes
           kubectl apply -f resources.yaml
     entrypoint: bash
-    id: delete_deployment
+    id: deployment
     name: gcr.io/cloud-builders/gke-deploy
   - 
     args: 
@@ -31,7 +53,7 @@ steps:
       - |
           PROJECT_ID=$(gcloud config get-value project)
           gcloud container clusters get-credentials gke-e2e-demo --zone us-west1-a --project $PROJECT_ID
-          echo y | gcloud compute ssh instance-1 --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+          echo y | gcloud compute ssh private-instance --project $PROJECT_ID --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
           kubectl delete -f resources.yaml
     entrypoint: bash
