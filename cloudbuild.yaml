@@ -1,58 +1,59 @@
---- 
-steps: 
-  - 
-    args: 
+---
+steps:
+  -
+    args:
       - build
       - "-t"
       - "gcr.io/andres-testing/nginx:latest"
       - "."
     name: gcr.io/cloud-builders/docker
-  - 
-    args: 
+  -
+    args:
       - push
       - "gcr.io/andres-testing/nginx:latest"
     name: gcr.io/cloud-builders/docker
 
- # -
- #   id: createvm
- #   name: gcr.io/cloud-builders/gke-deploy
- #   entrypoint: bash
- #   args:
- #     - "-c"
- #     - |    
- #         gcloud compute instances create private-instance \
- #         --boot-disk-auto-delete \
- #         --machine-type=n1-standard-1 \
- #         --metadata startup-script="sudo apt-get install tinyproxy && echo \"Allow localhost\" >> /etc/tinyproxy/tinyproxy.conf && sudo service tinyproxy restart" \
- #         --network=default \
- #         --preemptible \
- #         --tags tag-firewall \
- #         --zone=us-west1-a \
- #         --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
+ -
+   id: createvm
+   name: gcr.io/cloud-builders/gke-deploy
+   entrypoint: bash
+   args:
+     - "-c"
+     - |
+         gcloud compute instances create private-instance \
+         --boot-disk-auto-delete \
+         --machine-type=n1-standard-1 \
+         --metadata-from-file startup-script=tinyproxy.sh
+         --network=default \
+         --preemptible \
+         --tags tag-firewall \
+         --zone=us-west1-a \
+         --service-account=gke-custom@andres-testing.iam.gserviceaccount.com
  #   waitFor: ['-']
 
-  - 
-    args: 
-      - "-c"
-      - |
-          PROJECT_ID=$(gcloud config get-value project) 
-          gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-testing
-          echo y | gcloud compute ssh private-instance --project andres-testing --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f 
-          export HTTPS_PROXY=localhost:8888 
-          kubectl get nodes  
-          kubectl apply -f resources.yaml 
-    entrypoint: bash
-    id: deployment
-    name: gcr.io/cloud-builders/gke-deploy
-  - 
-    args: 
+  -
+    args:
       - "-c"
       - |
           PROJECT_ID=$(gcloud config get-value project)
           gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-testing
-          echo y | gcloud compute ssh private-instance --project andres-testing--zone us-west1-a--  -L 8888:localhost:8888 -N -q -f
+          echo y | gcloud compute ssh private-instance --project andres-testing --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
           export HTTPS_PROXY=localhost:8888
-          if ../kubectl delete -f resources.yaml ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
+          kubectl get nodes
+          kubectl apply -f resources.yaml
+    entrypoint: bash
+    id: deployment
+    name: gcr.io/cloud-builders/gke-deploy
+  -
+    args:
+      - "-c"
+      - |
+          PROJECT_ID=$(gcloud config get-value project)
+          gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-testing
+          echo y | gcloud compute ssh private-instance --project andres-testing --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+          export HTTPS_PROXY=localhost:8888
+          kubectl get nodes
+          if kubectl delete -f resources.yaml ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
     entrypoint: bash
     id: delete_deployment
     name: gcr.io/cloud-builders/gke-deploy
@@ -64,11 +65,11 @@ steps:
     entrypoint: bash
     args:
       - "-c"
-      - |    
+      - |
           gcloud compute instances delete private-instance --zone=us-west1-a
 
 
-  - 
+  -
     id: deployment_result
     name: "gcr.io/andres-testing/mybuilder:0.3"
     entrypoint: 'bash'
@@ -81,4 +82,4 @@ steps:
         else
           echo "the deployment step was successfully"
           exit 0
-        fi          
+        fi
