@@ -45,19 +45,19 @@ steps:
     entrypoint: bash
     id: deployment
     name: gcr.io/cloud-builders/gke-deploy
-  -
-    args:
-      - "-c"
-      - |
-          PROJECT_ID=$(gcloud config get-value project)
-          gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-testing
-          echo y | gcloud compute ssh private-instance --project andres-testing --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
-          export HTTPS_PROXY=localhost:8888
-          kubectl get nodes
-          if kubectl delete -f resources.yaml ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
-    entrypoint: bash
-    id: delete_deployment
-    name: gcr.io/cloud-builders/gke-deploy
+#  -
+#    args:
+#      - "-c"
+#      - |
+#          PROJECT_ID=$(gcloud config get-value project)
+#          gcloud container clusters get-credentials cluster-3 --region us-west1 --project andres-testing
+#          echo y | gcloud compute ssh private-instance --project andres-testing --zone us-west1-a --  -L 8888:localhost:8888 -N -q -f
+#          export HTTPS_PROXY=localhost:8888
+#          kubectl get nodes
+#          if kubectl delete -f resources.yaml ; then echo "success" > /workspace/deployment-status.txt ; else echo "fail" > /workspace/deployment-status.txt; fi
+#    entrypoint: bash
+#    id: delete_deployment
+#    name: gcr.io/cloud-builders/gke-deploy
 
 
   -
