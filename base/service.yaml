@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: alznginx-service
+spec:
+  selector:
+    app: alznginx
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
