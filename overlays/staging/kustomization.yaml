@@ -1,6 +1,23 @@
-bases:
-- ../../base
+# bases:
+# - ../../base
+# resources:
+# - ../../base
+# namePrefix: stg-
+# namespace: stg
+
+
 resources:
 - ../../base
+- namespace.yaml
+
 namePrefix: stg-
 namespace: stg
+
+
+# commonLabels:
+#   variant: test
+#   app: test-app
+
+# patchesStrategicMerge:
+# - secret.yaml
+# - configmap.yaml
