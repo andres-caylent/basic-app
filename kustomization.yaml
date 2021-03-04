@@ -1,5 +1,4 @@
 resources:
-- ./dev
 - ./staging
 - ./production
 namePrefix: poc-

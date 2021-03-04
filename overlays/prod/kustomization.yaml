@@ -1,10 +1,9 @@
-# resources:
-# - ../../base
-# namePrefix: prod-
-# namespace: prod
+
+bases:
+- ../../base
 
 resources:
-- ../../base
+# - ../../base
 - namespace.yaml
 
 namePrefix: prod-

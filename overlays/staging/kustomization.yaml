@@ -1,13 +1,16 @@
-# bases:
-# - ../../base
+bases:
+- ../../base
 # resources:
 # - ../../base
 # namePrefix: stg-
 # namespace: stg
 
 
+
+
 resources:
-- ../../base
+# - /Users/andreslz/repos/no-clients/basic-app/base
+#- ../../base
 - namespace.yaml
 
 namePrefix: stg-
