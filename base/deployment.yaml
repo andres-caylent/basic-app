@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.14.2
+        image: https://hub.docker.com/repository/docker/lucerozuazquita/basic-app:main
         ports:
         - containerPort: 80
