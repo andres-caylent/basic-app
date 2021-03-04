@@ -14,7 +14,7 @@ resources:
 - namespace.yaml
 
 namePrefix: stg-
-namespace: stg
+namespace: stg-namespace
 
 
 # commonLabels:
