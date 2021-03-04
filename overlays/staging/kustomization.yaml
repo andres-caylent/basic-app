@@ -1,4 +1,6 @@
 resources:
 - ../../base
+resources:
+- ../../base
 namePrefix: stg-
 namespace: stg
