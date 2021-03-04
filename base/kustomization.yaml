@@ -1,11 +1,14 @@
-#namespace: pksd
-#bases:
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+metadata:
+  name: arbitrary
 
-  # - git@github.com:parkside-securities/monorepo/k8s/base?ref=50.16.0
-  # - git@github.com:parkside-securities/monorepo/k8s/dev-base/mock-gateway?ref=50.16.0
-  # - git@github.com:parkside-securities/monorepo/k8s/dev-base/fix-simulator-service?ref=50.16.0
-  # - git@github.com:parkside-securities/monorepo/k8s/dev-base/datomic-presto-server?ref=50.16.0
+# # Example configuration for the webserver
+# # at https://github.com/monopole/hello
+# commonLabels:
+#   app: hello
 
 resources:
-  - deployment.yaml
-  - service.yaml
+- deployment.yaml
+- service.yaml
+
