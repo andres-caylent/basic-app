@@ -1,21 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: test-deployment
+  namespace: codeargo
   labels:
-    app: nginx
+    app: test
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: test
   template:
     metadata:
       labels:
-        app: nginx
+        app: test
     spec:
       containers:
-      - name: nginx
+      - name: test
         image: docker.io/lucerozuazquita/basic-app:main
         ports:
         - containerPort: 80
