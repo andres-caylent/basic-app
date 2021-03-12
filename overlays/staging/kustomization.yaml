@@ -16,6 +16,11 @@ resources:
 namePrefix: stg-
 namespace: stg-namespace
 
+images:
+- name: docker.io/lucerozuazquita/basic-app:main
+  newName: docker.io/lucerozuazquita/basic-app
+  newTag: latest
+
 
 # commonLabels:
 #   variant: test
